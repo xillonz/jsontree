@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JSON Tree</title>
+	<style>
+
+		body{
+			font-family: Arial;
+			background: #EEE;
+		}
+
+		h1{
+			text-align: center;
+		}
+
+		.container{
+			background: white;
+			width: 1040px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		ul{
+			list-style-type: none;
+		}
+		
+		.hidden{
+			display: none;
+		}
+
+		.expand:hover{
+			cursor: pointer;
+		}
+
+		.expand{
+			height: 15px;
+			width: 15px;			
+			border: solid 1px black;
+			text-align: center;
+			display: inline-block;
+			margin-right: 5px;
+		}
+
+		.text{
+			font-weight: bold;
+			margin-left: 22px;
+		}
+
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>HTML To JSON Tree</h1>
+	<div class="container"></div>
+	
+	<script>		
+        $(document).ready(function() {          	
+
+
+        	// Grabs the json file.
+            $.ajax({
+                url: "website.json",                
+                dataType: "text",
+                success: function(data) {
+
+                    file = $.parseJSON(data); 
+
+                   	var tree = JSONToHTML(file)
+
+		            $('.container').append(tree);
+
+		            // Adds on click function for branch expansion.
+		            $('.expand').on('click', function(){
+		            	$(this).parent().parent().children('.content').toggleClass('hidden');
+
+		            	if($(this).html() == '+'){
+		            		$(this).html('-');
+		            	}else{
+		            		$(this).html('+');
+		            	}
+		            });		            
+
+		            // Creates tree structure in HTML
+		            function JSONToHTML(json) {
+					    var i;
+					    var html = "";
+
+					    html += "<ul>";
+					    for(i in json){
+
+					    	console.log(json[i]);
+
+					    	if(json[i] != ""){
+					    		html += "<li><div class='header'><span class='expand'>+</span>"+i+"</div><div class='content hidden'>";
+						        if(typeof json[i] === "object"){
+						        	html += JSONToHTML(json[i]);
+						        }else{
+						        	html += "<div class='text'>"+json[i]+"</div>";
+						        } 
+
+						        html += "</div></li>";
+					    	}		    							    	
+					        
+					    }
+
+					    html += "</ul>";					    
+
+					    return html;					    
+					}
+                }
+            });                        
+        });		
+	</script>
+</body>
+
+</html>

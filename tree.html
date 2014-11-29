@@ -24,6 +24,7 @@
 
 		ul{
 			list-style-type: none;
+			padding-left: 20px;
 		}
 		
 		.hidden{
@@ -36,9 +37,9 @@
 
 		.expand{
 			height: 15px;
-			width: 15px;			
-			border: solid 1px black;
-			text-align: center;
+			width: 15px;
+			line-height: 12px;
+			padding: 0;		
 			display: inline-block;
 			margin-right: 5px;
 		}
@@ -94,7 +95,7 @@
 					    	console.log(json[i]);
 
 					    	if(json[i] != ""){
-					    		html += "<li><div class='header'><span class='expand'>+</span>"+i+"</div><div class='content hidden'>";
+					    		html += "<li><div class='header'><button class='expand'>+</button>"+i+"</div><div class='content hidden'>";
 						        if(typeof json[i] === "object"){
 						        	html += JSONToHTML(json[i]);
 						        }else{
